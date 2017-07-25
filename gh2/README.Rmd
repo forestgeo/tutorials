@@ -21,7 +21,6 @@ If you haven't yet installed Git and configured Git, follow this instructions fo
 - Pull, push, download, upload content
 - Time travel
 
-
 If you get lost, don't worry. You can catch up later by asking me or reading:
 
 - http://r-pkgs.had.co.nz/git.html. 
