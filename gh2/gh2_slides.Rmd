@@ -10,7 +10,7 @@ output: ioslides_presentation
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-# Recap GitHub tutorial 1 | Remember to accept my invitation to become a member of github.com/forestgeo
+# Recap GitHub tutorial 1 | Have you accepted the invitation to github.com/forestgeo?
 
 # Goal | Interact with GitHub from RStudio
 
