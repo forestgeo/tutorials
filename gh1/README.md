@@ -1,5 +1,7 @@
-# gh1
+GitHub Tutorial 1 (gh1)
+================
 
-The goal of __gh1__ is to make you a more useful collaborator by using \R and GitHub.
+gh1
+===
 
-
+The goal of **gh1** is to make you a more useful collaborator by using and GitHub.
