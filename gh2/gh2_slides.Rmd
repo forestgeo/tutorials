@@ -22,20 +22,13 @@ Requisites ([Initial Set up](https://github.com/forestgeo/learn/issues/31))
 
 ## Why using git
 
-- **to work more safely. **It heps you work more safely so you can take more risks (not using git is like free climbing)
+Use some slides from visual slides from alice?.
 
-- **to work more neatly. **It helps you to organise your work better by using consistent structure and procedure
+Show the value if you work on your own.
 
-- **to work more effectively. **it helps you achieve goals easier by focusing on compleating small incremental steps (particular tasks) towards that goal
+Show the value if you collaborate.
 
-- **To work more visibly. **it provides a website for your project
-
-- **To work more collaboratively. **it provides a system for others to contribute to your work.
-
-
-## xxx replace above with visual slides from alice ?.
-
-## How you can use git
+## How you can use git | Here we will use RStudio.
 
 - **From RStudio.**
 
@@ -45,18 +38,11 @@ Requisites ([Initial Set up](https://github.com/forestgeo/learn/issues/31))
 [Recommended Git clients](http://happygitwithr.com/git-client.html#recommended-git-clients)).**
 
 
-## Workflow
 
 
-Simple workflow model adviced by github
 
-- https://guides.github.com/introduction/flow/
 
-- http://scottchacon.com/2011/08/31/github-flow.html
 
-General models, including those not adviced by github
-
-- https://www.atlassian.com/git/tutorials/comparing-workflows/forking-workflow
 
 
 
@@ -79,7 +65,82 @@ Watch webinars listed on `articles/Learning_road_map.docx`
 
 
 
+```{r}
+tag_xxxcont <- "Incorporate content into slides; check slides."
 
+```
+
+
+- Quickly review the last tutorial. Show:
+    - forestgeo GitHub organization.
+    - forestr package website.
+    - rpubs.com/forestgeo.
+    - twitter.com: search for #forestgeo #pr17.
+
+- Get GitHub usernames
+    - check whose invitation is pendent.
+    - those who haven't yet contacted me via GitHub,  ask to comment this issue.
+
+- Download, upload single files.
+
+- Create, delete, clone and fork repos
+   - Open a new repo on GitHub, then clone it into a new RStudio project.
+       - Update readme on RStudio, then push.
+       - Update readme on GitHub, then pull.
+   - Clone the preexisting __gh2__ repo from GitHub into an RStudio project.
+       - Repeat as above.
+   - Fork a repo form some other GitHub account into yours.
+       - Repeat as above.
+   - Add a remote to push a preexisting repo from RStudio into a new repository on GitHub.
+
+- Time travel
+    - See history
+    - Revert file
+
+If you get lost, don't worry. You can catch up later by asking me or reading:
+
+- http://r-pkgs.had.co.nz/git.html. 
+- http://happygitwithr.com/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# GitHub tutorial 3 | Workflow with GitHub Flow
+
+## Workflows may be simple or complex | Simple is better than complex; complex is better than complicated.
+
+Simple workflow model adviced by github
+
+- https://guides.github.com/introduction/flow/
+
+- http://scottchacon.com/2011/08/31/github-flow.html
+
+General models, including those not adviced by github
+
+- https://www.atlassian.com/git/tutorials/comparing-workflows/forking-workflow
 
 
 
