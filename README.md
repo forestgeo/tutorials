@@ -4,28 +4,25 @@ The goal of __gh2__ is to interact with GitHub from RStudio.
 
 This tutorial is for those with a GitHub account, that have already installed Git (Git is the engine of GitHub), R and RStudio; these people configured it all but haven't fully incorporated these tools into their workflow.
 
-Contents: These are good guide for what contents we may cover: 
+If you haven't yet installed Git and configured Git, follow this instructions for its __Initial Set Up__: https://github.com/forestgeo/learn/issues/31.
+
+## Contents
+
+- Open a new repo on GitHub, then clone it into a project on RStudio.
+- Clone a repo from GitHub (__gh2__), then clone it into a project on RStudio.
+- Clone a repo from GitHub, then a project on RStudio.
+
+
+If you get lost, don't worry. You can catch up later by asking me or reading:
 
 - http://r-pkgs.had.co.nz/git.html. 
 - http://happygitwithr.com/
 
+## Resources
+
+Watch webinars listed on `articles/Learning_road_map.docx`
 
 
-## Issues
-
-Approach: assume everybody has installed git bash. For those who didn't install it, do that quickly following r-pkgs:
-
-
-
-
-
-
-- Open a new repo on GitHub, then clone it into a project on RStudio.
-
-- Clone a repo from GitHub (__gh2__), then clone it into a project on RStudio.
-
-
-- Clone a repo from GitHub, then a project on RStudio.
 
 
 
