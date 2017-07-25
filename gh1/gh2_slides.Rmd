@@ -1,0 +1,85 @@
+---
+title: "rpubs.com/forestgeo/gh2"
+subtitle: "GitHub Tutorial 2"
+author: "maurolepore@gmail.com"
+date: "25 July 2017"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# Goal | Interact with GitHub from RStudio
+
+Requisites ([Initial Set up](https://github.com/forestgeo/learn/issues/31))
+
+- GitHub account.
+- Git installed in your computer.
+- RStudio installed in your computer.
+
+# 2. Why and how to use git
+
+## Why using git
+
+- **to work more safely. **It heps you work more safely so you can take more risks (not using git is like free climbing)
+
+- **to work more neatly. **It helps you to organise your work better by using consistent structure and procedure
+
+- **to work more effectively. **it helps you achieve goals easier by focusing on compleating small incremental steps (particular tasks) towards that goal
+
+- **To work more visibly. **it provides a website for your project
+
+- **To work more collaboratively. **it provides a system for others to contribute to your work.
+
+
+## xxx replace above with visual slides from alice ?.
+
+## How you can use git
+
+- **From RStudio.**
+
+- **From a shell such as bash. **
+
+- **From a GUI* (
+[Recommended Git clients](http://happygitwithr.com/git-client.html#recommended-git-clients)).**
+
+
+## Workflow
+
+
+Simple workflow model adviced by github
+
+- https://guides.github.com/introduction/flow/
+
+- http://scottchacon.com/2011/08/31/github-flow.html
+
+General models, including those not adviced by github
+
+- https://www.atlassian.com/git/tutorials/comparing-workflows/forking-workflow
+
+
+
+
+
+
+- Open a new repo on GitHub, then clone it into a project on RStudio.
+- Clone a repo from GitHub (__gh2__), then clone it into a project on RStudio.
+- Clone a repo from GitHub, then a project on RStudio.
+
+
+If you get lost, don't worry. You can catch up later by asking me or reading:
+
+- http://r-pkgs.had.co.nz/git.html. 
+- http://happygitwithr.com/
+
+## Resources
+
+Watch webinars listed on `articles/Learning_road_map.docx`
+
+
+
+
+
+
+
