@@ -7,12 +7,14 @@ This tutorial is for those with a GitHub account, that have already installed Gi
 
 If you haven't yet installed Git and configured Git, follow this instructions for its **Initial Set Up**: <https://github.com/forestgeo/learn/issues/31>.
 
-Contents
---------
+Outline
+-------
 
--   Open a new repo on GitHub, then clone it into a project on RStudio.
--   Clone a repo from GitHub (**gh2**), then clone it into a project on RStudio.
--   Clone a repo from GitHub, then a project on RStudio.
+-   Quickly review GitHub Tutorial 1.
+-   Get GitHub username of those who haven't yet contacted me via GitHub.
+-   Create, clone and fork repos
+-   Pull, push, download, upload content
+-   Time travel
 
 If you get lost, don't worry. You can catch up later by asking me or reading:
 
@@ -22,4 +24,4 @@ If you get lost, don't worry. You can catch up later by asking me or reading:
 Resources
 ---------
 
-Watch webinars listed on `articles/Learning_road_map.docx`
+Watch webinars listed on `tutorials/articles/Learning_road_map.docx`
