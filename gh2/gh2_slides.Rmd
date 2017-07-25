@@ -10,6 +10,8 @@ output: ioslides_presentation
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
+# Recap GitHub tutorial 1 | Remember to accept my invitation to become a member of github.com/forestgeo
+
 # Goal | Interact with GitHub from RStudio
 
 Requisites ([Initial Set up](https://github.com/forestgeo/learn/issues/31))
@@ -18,9 +20,19 @@ Requisites ([Initial Set up](https://github.com/forestgeo/learn/issues/31))
 - Git installed in your computer.
 - RStudio installed in your computer.
 
-# 2. Why and how to use git | [Git for Humans](https://speakerdeck.com/alicebartlett/git-for-humans)
+## Catching up | If you get lost, don't worry!
 
-## Why using git
+You can catch up later by asking me or reading:
+
+- Slides. Why and how to use git: [Git for Humans](https://speakerdeck.com/alicebartlett/git-for-humans)
+- Book chapter. Initial setup and overview: http://r-pkgs.had.co.nz/git.html. 
+- Book. All, with a friendly style: http://happygitwithr.com/
+
+- tutorials/articles/Learning_road_map.docx
+
+__Haven't installled git yet? Sit next to someone that has it.__
+
+## Motivation | Why using git?
 
 - [With dropbox](https://speakerdeck.com/alicebartlett/git-for-humans?slide=22)
 
@@ -43,19 +55,42 @@ Requisites ([Initial Set up](https://github.com/forestgeo/learn/issues/31))
 
 ## Hands on
 
+
+- Touch base by giving hands up on [this issue](https://github.com/forestgeo/tutorials/issues/1)
 How many people installed git?
 
-(If you haven't, sit next to someone that has already installed git.)
+## Open a repo
 
-## 
+## Delete a repo
 
-### Open a new repo on GitHub
+## Open another repo
+
+### Upload a text file.
+
+### Edit the file
+
+### Download the file
+
+## Clone a repo
+
+### Open a new repo on GitHub.
+
+### Write a readme file.
 
 ### Then clone the repo into an RStudio project.
 
+
+### Change something, on the read me file; ten revert the changes.
+
+### Change something else; then commit the changes.
+
+### Explore history.
+
+### Push 
+
 ## Fork
 
-### Fork forestr/tutorials into your personal account.
+### Fork forestr/tutorials into your \<your-account\>/tutorials.
 
 ### Clone forestr/tutorials into an RStudio project.
 
@@ -67,59 +102,15 @@ How many people installed git?
 
 ### Request to pull your your fork into forestr/tutorials
 
-### Push from your computer to an empty new project
+## Upload an existing projec
 
+### In your account, name a new repo as in your computer
 
+### Follow instructions from GitHub (require the shell)
 
+#
 
-
-If you get lost, don't worry. You can catch up later by asking me or reading:
-
-- http://r-pkgs.had.co.nz/git.html. 
-- http://happygitwithr.com/
-
-## Resources
-
-Watch webinars listed on `articles/Learning_road_map.docx`
-
-
-
-```{r}
-tag_xxxcont <- "Incorporate content into slides; check slides."
-
-```
-
-
-- Quickly review the last tutorial. Show:
-    - forestgeo GitHub organization.
-    - forestr package website.
-    - rpubs.com/forestgeo.
-    - twitter.com: search for #forestgeo #pr17.
-
-- Get GitHub usernames
-    - check whose invitation is pendent.
-    - those who haven't yet contacted me via GitHub,  ask to comment this issue.
-
-- Download, upload single files.
-
-- Create, delete, clone and fork repos
-   - Open a new repo on GitHub, then clone it into a new RStudio project.
-       - Update readme on RStudio, then push.
-       - Update readme on GitHub, then pull.
-   - Clone the preexisting __gh2__ repo from GitHub into an RStudio project.
-       - Repeat as above.
-   - Fork a repo form some other GitHub account into yours.
-       - Repeat as above.
-   - Add a remote to push a preexisting repo from RStudio into a new repository on GitHub.
-
-- Time travel
-    - See history
-    - Revert file
-
-If you get lost, don't worry. You can catch up later by asking me or reading:
-
-- http://r-pkgs.had.co.nz/git.html. 
-- http://happygitwithr.com/
+end. 
 
 
 
@@ -141,25 +132,6 @@ If you get lost, don't worry. You can catch up later by asking me or reading:
 
 
 
-
-
-
-
-
-
-# GitHub tutorial 3 | Workflow with GitHub Flow
-
-## Workflows may be simple or complex | Simple is better than complex; complex is better than complicated.
-
-Simple workflow model adviced by github
-
-- https://guides.github.com/introduction/flow/
-
-- http://scottchacon.com/2011/08/31/github-flow.html
-
-General models, including those not adviced by github
-
-- https://www.atlassian.com/git/tutorials/comparing-workflows/forking-workflow
 
 
 
