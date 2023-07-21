@@ -1,0 +1,76 @@
+---
+title: "A Quick Guide to Biomass Calculations"
+output: html_document
+---
+
+```{r setup, include = F}
+knitr::opts_chunk$set(warning = F, message = F)
+```
+
+## Overview - From trees to forests to biomass ##
+0. Set up and accessing the data
+
+First we need to install some R packages that we will use:
+
+```{r }
+#install.packages("remotes",repos = "http://cran.us.r-project.org")
+#install.packages("rdryad",repos = "http://cran.us.r-project.org")
+#remotes::install_github("ropensci/allodb")
+#remotes::install_github('umr-amap/BIOMASS')
+
+library(rdryad)
+library(allodb)
+library(BIOMASS)
+
+```
+
+For these examples, we will use the census data from the Barro Colorado Island (BCI) ForestGEO plot. The data is open access and can be downloaded from an online repository (Condit et al., 2019). BCI has 8 full censuses, though we will only be working with the last 2 censuses (#7 & #8) today. 
+
+The following code will download the data, unpackage it, and collect the two most recent censuses. We will also load a table containing species data for all species present in BCI and connect it with the census data in the dataframe `stems_spp`.
+
+```{r, echo = F}
+dryad_data_path <- rdryad::dryad_download("10.15146/5xcp-0d46")
+
+#unzip files
+zip_files <- grep("\\.zip", dryad_data_path$`10.15146/5xcp-0d46`, value = TRUE)
+zip_folders <- sapply(zip_files, function(dir) {
+  name <- gsub("\\.zip", "", data.table::last(strsplit(dir, '/')[[1]]))
+  utils::unzip(dir, exdir = name)
+})
+
+bci_stem <- list.files("bci.stem")[c(7,8)] #select last two censuses
+
+census_list <- lapply(bci_stem, function(name) {
+  load(paste0("bci.stem/", name)); get(strsplit(name, "\\.rda")[[1]][1])
+})
+
+recent_stems <- rbind(census_list[[1]], census_list[[2]])
+
+load(grep("spp", dryad_data_path$`10.15146/5xcp-0d46`, value = TRUE))
+
+stems_spp <- merge(recent_stems, bci.spptable, by = "sp", all.x = T)
+
+
+  
+```
+
+
+1. Calculate biomass for a single tree
+
+```{r}
+
+
+
+```
+
+
+2. Biomass stocks & fluxes for the whole forest (or plot)
+
+## Allometries - Why we love diameter measurements so much ##
+
+1. For tropical forests, use the _biomass_ package to apply allometries.
+2. For the extratropics, use the _allodb_ package.
+
+## Example Analyses - Moving from giant tables to graphs & maps ##
+
+## Complexities - How there are numerous, different estimates of biomass for BCI (and everywhere)##
