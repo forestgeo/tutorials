@@ -8,11 +8,11 @@ knitr::opts_chunk$set(warning = F, message = F)
 ```
 
 ## Overview - From trees to forests to biomass ##
-0. Set up and accessing the data
+### 0. Set up and accessing the data ###
 
-First we need to install some R packages that we will use:
+First we need to install some R packages. The _remotes_ packages allows you to easily download packages that are on GitHub, like the _BIOMASS_ package and the _allodb_ package that we will discuss later. We will use the _rdryad_ package to access data stored in Dryad (an online data repository). 
 
-```{r }
+```{r}
 #install.packages("remotes",repos = "http://cran.us.r-project.org")
 #install.packages("rdryad",repos = "http://cran.us.r-project.org")
 #remotes::install_github("ropensci/allodb")
@@ -28,7 +28,8 @@ For these examples, we will use the census data from the Barro Colorado Island (
 
 The following code will download the data, unpackage it, and collect the two most recent censuses. We will also load a table containing species data for all species present in BCI and connect it with the census data in the dataframe `stems_spp`.
 
-```{r, echo = F}
+```{r}
+#this code section is adapted from Appendix S1 of Pipiniot & Muller-Landau (in press).
 dryad_data_path <- rdryad::dryad_download("10.15146/5xcp-0d46")
 
 #unzip files
@@ -40,36 +41,42 @@ zip_folders <- sapply(zip_files, function(dir) {
 
 bci_stem <- list.files("bci.stem")[c(7,8)] #select last two censuses
 
-census_list <- lapply(bci_stem, function(name) {
+census_list <- lapply(bci_stem, function(name) { #load census data from the unzipped folders
   load(paste0("bci.stem/", name)); get(strsplit(name, "\\.rda")[[1]][1])
 })
 
-recent_stems <- rbind(census_list[[1]], census_list[[2]])
+load(grep("spp", dryad_data_path$`10.15146/5xcp-0d46`, value = TRUE)) #load the species table
+census_7 <- merge(cbind(census_list[[1]],CensusID = 7), bci.spptable, by = "sp", all.x = T) #bind species table to census #7
+census_8 <- merge(cbind(census_list[[2]],CensusID = 8), bci.spptable, by = "sp", all.x = T) #bind species table to census #8 
+stems_spp <- rbind(census_7, census_8) #combine censuses into a single dataframe
 
-load(grep("spp", dryad_data_path$`10.15146/5xcp-0d46`, value = TRUE))
-
-stems_spp <- merge(recent_stems, bci.spptable, by = "sp", all.x = T)
-
-
-  
 ```
 
+### 1. Calculate biomass for a single tree ###
 
-1. Calculate biomass for a single tree
+We need to select only a single tree from our census. Here, we chose a _Trichilia tuberculata_.
+<center>
+
+![_Trichilia tuberculata_ (pc: Rolando Pérez)](img/tri2tu.jpg){width=12%,height=10%}
+
+</center>
 
 ```{r}
-
-
-
+single_tree <- subset(stems_spp,treeID == 4137 & CensusID == 8)
+D <- single_tree$dbh / 10 #convert dbh from cm to mm
+WD <- single_tree$wsg #wood density/specific gravity provided in dataset
+lat <- 9.1543 
+lon <- -79.8461
+agb <- computeAGB(D = D,WD = WD,coord = cbind(lon,lat)) #ABG in Mg of biomass
 ```
 
 
-2. Biomass stocks & fluxes for the whole forest (or plot)
+### 2. Biomass stocks & fluxes for the whole forest (or plot) ###
 
 ## Allometries - Why we love diameter measurements so much ##
 
-1. For tropical forests, use the _biomass_ package to apply allometries.
-2. For the extratropics, use the _allodb_ package.
+### 1. For tropical forests, use the _biomass_ package to apply allometries. ###
+### 2. For the extratropics, use the _allodb_ package. ###
 
 ## Example Analyses - Moving from giant tables to graphs & maps ##
 
