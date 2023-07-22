@@ -1,16 +1,18 @@
 ---
 title: "A Quick Guide to Biomass Calculations"
-output: html_document
+author: Luca L. Morreale
+output: 
+  html_document:
+    code_folding: hide
 ---
 
 ```{r setup, include = F}
 knitr::opts_chunk$set(warning = F, message = F)
 ```
 
-## Overview - From trees to forests to biomass ##
 ### 0. Set up and accessing the data ###
 
-First we need to install some R packages. The _remotes_ packages allows you to easily download packages that are on GitHub, like the _BIOMASS_ package and the _allodb_ package that we will discuss later. We will use the _rdryad_ package to access data stored in Dryad (an online data repository). 
+First we need to install some R packages. The _remotes_ packages allows you to easily download packages that are on GitHub, like the _BIOMASS_ package and the _allodb_ package that we will discuss later. We will use the _rdryad_ package to access forest data that is stored in Dryad (an online data repository). 
 
 ```{r}
 #install.packages("remotes",repos = "http://cran.us.r-project.org")
@@ -20,7 +22,6 @@ First we need to install some R packages. The _remotes_ packages allows you to e
 
 library(rdryad)
 library(allodb)
-library(BIOMASS)
 
 ```
 
@@ -54,30 +55,160 @@ stems_spp <- rbind(census_7, census_8) #combine censuses into a single dataframe
 
 ### 1. Calculate biomass for a single tree ###
 
-We need to select only a single tree from our census. Here, we chose a _Trichilia tuberculata_.
+First, we need to select only a single tree from our census. Here, we chose a _Trichilia tuberculata_.
 <center>
 
 ![_Trichilia tuberculata_ (pc: Rolando Pérez)](img/tri2tu.jpg){width=12%,height=10%}
 
 </center>
 
+We will use the most recent diameter measurement for this tree along with an allometry to estimate the biomass.
+The most widely used allometry for tropical forests is the pantropical allometric equation from Chave _et al._ 2014:
+
+$$AGB = (0.0673 * (\rho * H * D^2)^.976) / 1000$$
+Here, above-ground biomass (AGB) is calculated as a function of tree diameter (D, in cm), tree height (H, in m), and wood density ($\rho$, in $g$ $cm^-3 $). Diameter, or dbh, is included in our dataset, $\rho$ is species-level trait that is also included in our data (column "wsg"). Height is not included in our data, so we will use a height of 25 m to start with. We then divide by 1000 so that our biomass units will be in Mg. 
+
+
 ```{r}
 single_tree <- subset(stems_spp,treeID == 4137 & CensusID == 8)
-D <- single_tree$dbh / 10 #convert dbh from cm to mm
-WD <- single_tree$wsg #wood density/specific gravity provided in dataset
-lat <- 9.1543 
+#dbh
+print(single_tree$dbh)
+D <- 350/10 #convert dbh in mm to cm
+#H
+H <- 25
+#wood density
+print(single_tree$wsg)
+rho <- .6275
+
+AGB <- (0.0673 * (rho * H * D^2)^.976)/ 1000
+print(AGB)
+```
+
+Using this equation, we estimate the biomass of this tree is `r round(AGB,3)` Mg.
+
+
+##### ***Challenge #1:*** **Without copying the above code, can you calculate the biomass of a different tree in the BCI census?** #####
+
+
+We have a problem - the height value we assigned this tree was a guess, not a field measurement. What if the tree is a different height?
+
+
+```{r}
+
+many_H <- 1:45
+AGB_height <- (0.0673 * (rho * many_H * D^2)^.976)/ 1000
+
+plot(x = many_H, y = AGB_height, main = "Effect of height on calculation of ABG", xlab = "Height (m)", ylab = "Above-ground Biomass (kg)") 
+points(x = H, y = AGB, pch = 21, bg = "red", cex = 2)
+legend(1.5, 1.8, legend = c("H = 25 m"),pch = c(21),col = "black",pt.cex = 2,pt.bg = c("red"), bg = "grey90")
+
+```
+
+We see that height is very important. There are multiple ways that height is measured in the field AND there are different choices for how to estimate height if field measurements aren't available. Here we will use an allometric equation developed specifically for the BCI plot that estimates height from dbh (Martínez Cano et al. 2019):
+
+$$H = \frac{58.0D^.73}{21.8 + D^.73}$$
+
+
+```{r}
+D <- 350/10 #Use the same diameter from our tree
+
+H <- (58.0 * (D^.73))/(21.8 + (D^.73)) #Calculate height using the BCI allometry
+
+print(H) #The new height is 22.08 m
+
+AGB_correctH <- (0.0673 * (rho * H * D^2)^.976)/ 1000
+
+print(AGB_correctH) #The new biomass is .904 Mg
+
+plot(x = many_H, y = AGB_height, main = "Effect of height on calculation of ABG: Part II", xlab = "Height (m)", ylab = "Above-ground Biomass (kg)") 
+points(x = c(H,25), y = c(AGB_correctH,AGB), pch = 21, bg = c("darkred","red"), cex = 2)
+arrows(x0 = 25, y0 = AGB, x1 = H, y1 = AGB_correctH,length = .1,lwd = 3,col = "red")
+legend(1.5, 1.8, legend = c("H = 25 m","H from allometry"),pch = c(21),col = "black",pt.cex = 2,pt.bg = c("red","darkred"), bg = "grey90")
+
+```
+
+Using the new calculation for height, we see a substantially different estimate of AGB: `r round(AGB_correctH,3)` Mg instead of `r round(AGB,3)` Mg (11% less)!
+
+### 2. Biomass stocks & fluxes for the whole forest plot ###
+
+#### Biomass stock ####
+Now that we've calculated biomass for one tree, we will move onto the whole plot. All we need to do is expand our code to run on every tree in the most recent census.
+
+```{r}
+
+All_Ds <-   census_8$dbh/10 #Get all of the diameters from census
+All_rhos <- census_8$wsg #Get all wood densities from census
+All_H <- (58.0 * (All_Ds^.73))/(21.8 + (All_Ds^.73)) #Calculate height for all trees in the census
+
+All_AGB_census8 <- (0.0673 * (All_rhos * All_H * All_Ds^2)^.976) / 1000
+
+Total_Biomass_BCI <- sum(All_AGB_census8,na.rm=T) / 50 #calculate Mg Ha-1 of biomass by dividing over the 50 hectares of the plot
+
+
+```
+
+We estimate the biomass stock of BCI in the 2015 census to be  **`r round(Total_Biomass_BCI,2)`** $Mg$ $Ha^-1$. 
+
+##### ***Challenge #2:*** **Without copying the provided code, can you calcuate the biomass stock for the BCI plot in the previous census (census #7)?** #####
+
+
+#### Net change in biomass ####
+
+
+
+```{r}
+stems_spp$dbh_cm <- stems_spp$dbh / 10
+stems_spp$Height <- (58.0 * (stems_spp$dbh_cm^.73))/(21.8 + (stems_spp$dbh_cm^.73))
+stems_spp$AGB <- (0.0673 * (stems_spp$wsg * stems_spp$Height * stems_spp$dbh_cm^2)^.976) / 1000
+
+AGB_stocks <- tapply(stems_spp$AGB,stems_spp$CensusID,sum,na.rm=T)
+
+AGB_netchange <- (AGB_stocks[2] - AGB_stocks[1]) / 50 / 5 #Calculate Mg Ha-1 Yr-1: normalize by area and 5-year census interval.
+
+print(unname(AGB_netchange))
+```
+
+##### ***Challenge #3:*** **Net change in aboveground biomass is made up of multiple component fluxes (broadly: woody growth, mortality, and recruitment). How would calculate these seperate fluxes? Try to calculate the mortality flux. ** #####
+
+## Isn't there a package for that?##
+
+There is. There are many packages that to help with allometries, biomass calculations,etc. We will briefly demonstrate two packages developed by ForestGEO members and collaborators, one for us in the tropics and one for extratropical forests.
+
+### BIOMASS ###
+
+For tropical forests, we can use the _biomass_ package (Réjou-Méchain *et al.* 2017) to apply the Chave *et al.* 2014 pantropical allometry just like we did earlier. 
+
+```{r}
+library(BIOMASS)
+D <- 35
+rho  <- .6275
+H <- 22.08
+BIOMASS_agb <- computeAGB(D = D,WD = rho,H = H) #ABG in Mg of biomass
+print(BIOMASS_agb)
+```
+
+We get the same answer (phew!). The *BIOMASS* package also offers a number of other useful features. It has helpful functions to clean up typos in taxonomic names *correctTaxo()*, lookup wood density values for your species *getWoodDensity()*, and propogate errors for better tracking of uncertainty *AGBmonteCarlo()*. 
+
+Additionally, it has implemented alternative equations for estimating tree height if you do not have field measurements or your own site allometries. One of the options uses another equation from Chave *et al.* 2014: instead of tree height, you can provide coordinates of your site and the package will use environmental conditions to create a new allometric equation and calculate height for your data.
+
+```{r}
+#coordinates of BCI plot from ForestGEO website
+lat <- 9.1543
 lon <- -79.8461
-agb <- computeAGB(D = D,WD = WD,coord = cbind(lon,lat)) #ABG in Mg of biomass
+
+coordAllom_agb <- computeAGB(D = D,WD = rho,coord = c(lon, lat) ) #ABG in Mg of biomass
+print(coordAllom_agb)
+```
+Notice that we get a different value with this method because it using a different allometry.
+
+### allodb ###
+
+For the extratropics, the _allodb_ package (Gonzalez-Akre *et al.* 2022) is a new package that brings together 570 different allometric equations. It creates new allometries based on the location and species in your dataset, by applying a weighting scheme to all applicable allometries in it's database. Similar to the *BIOMASS* package, it relies upon dbh, site coordinates, 
+
+```{r}
+
 ```
 
 
-### 2. Biomass stocks & fluxes for the whole forest (or plot) ###
+## But wait there's more...##
 
-## Allometries - Why we love diameter measurements so much ##
-
-### 1. For tropical forests, use the _biomass_ package to apply allometries. ###
-### 2. For the extratropics, use the _allodb_ package. ###
-
-## Example Analyses - Moving from giant tables to graphs & maps ##
-
-## Complexities - How there are numerous, different estimates of biomass for BCI (and everywhere)##
