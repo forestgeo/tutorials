@@ -14,11 +14,11 @@ knitr::opts_chunk$set(warning = F, message = F)
 
 First we need to install some R packages. The _remotes_ packages allows you to easily download packages that are on GitHub, like the _BIOMASS_ package and the _allodb_ package that we will discuss later. We will use the _rdryad_ package to access forest data that is stored in Dryad (an online data repository). 
 
-```{r}
-#install.packages("remotes",repos = "http://cran.us.r-project.org")
-#install.packages("rdryad",repos = "http://cran.us.r-project.org")
-#remotes::install_github("ropensci/allodb")
-#remotes::install_github('umr-amap/BIOMASS')
+```{r, echo = F}
+install.packages("remotes",repos = "http://cran.us.r-project.org")
+install.packages("rdryad",repos = "http://cran.us.r-project.org")
+remotes::install_github("ropensci/allodb")
+remotes::install_github('umr-amap/BIOMASS')
 
 library(rdryad)
 library(allodb)
@@ -220,13 +220,7 @@ print(allodb_AGB)
 ```
 ## Mapping our results ##
 
-Frequently, we are interested in not just a single calculation for a whole plot, but to see how biomass stocks and fluxes vary within a ForestGEO plot. 
-
-
-
-```{r}
-
-```
+Frequently, we are interested in not just a single calculation for a whole plot, but to see how biomass stocks and fluxes vary within a ForestGEO plot. We can calculate biomass for each individual quadrat, and then connect it with a spatial dataset of the plot quadrats to look at biomass over space. 
 
 
 ## But wait there's more... ##
@@ -241,5 +235,10 @@ For example: in the BCI plot (and other tropical forest sites) large root buttre
 
 </center>
 
+Other potential issues:
 
+* Censuses may need to be excluded if their are large differences in methodology.
+* Lack of genus or species level taxonomy may require decisions about the most appropriate wood density values or allometries.
+* Systematic site differences (taller or shorter than expected in allometries) can result in large errors when using standard allometric equations.
+* Trees are weird. Trees that have fallen down, but stayed alive and sprouted offshoots do not match allometric equations.
 

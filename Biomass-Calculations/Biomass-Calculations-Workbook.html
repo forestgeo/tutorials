@@ -451,13 +451,14 @@ packages allows you to easily download packages that are on GitHub, like
 the <em>BIOMASS</em> package and the <em>allodb</em> package that we
 will discuss later. We will use the <em>rdryad</em> package to access
 forest data that is stored in Dryad (an online data repository).</p>
-<pre class="r"><code>#install.packages(&quot;remotes&quot;,repos = &quot;http://cran.us.r-project.org&quot;)
-#install.packages(&quot;rdryad&quot;,repos = &quot;http://cran.us.r-project.org&quot;)
-#remotes::install_github(&quot;ropensci/allodb&quot;)
-#remotes::install_github(&#39;umr-amap/BIOMASS&#39;)
-
-library(rdryad)
-library(allodb)</code></pre>
+<pre><code>## package &#39;remotes&#39; successfully unpacked and MD5 sums checked
+## 
+## The downloaded binary packages are in
+##  C:\Users\llm77\AppData\Local\Temp\Rtmpy4esWg\downloaded_packages</code></pre>
+<pre><code>## package &#39;rdryad&#39; successfully unpacked and MD5 sums checked
+## 
+## The downloaded binary packages are in
+##  C:\Users\llm77\AppData\Local\Temp\Rtmpy4esWg\downloaded_packages</code></pre>
 <p>For these examples, we will use the census data from the Barro
 Colorado Island (BCI) ForestGEO plot. The data is open access and can be
 downloaded from an online repository (Condit et al., 2019). BCI has 8
@@ -676,7 +677,9 @@ print(allodb_AGB)</code></pre>
 <h2>Mapping our results</h2>
 <p>Frequently, we are interested in not just a single calculation for a
 whole plot, but to see how biomass stocks and fluxes vary within a
-ForestGEO plot.</p>
+ForestGEO plot. We can calculate biomass for each individual quadrat,
+and then connect it with a spatial dataset of the plot quadrats to look
+at biomass over space.</p>
 </div>
 <div id="but-wait-theres-more" class="section level2">
 <h2>But wait there’s more…</h2>
@@ -695,6 +698,18 @@ at the standard height must be corrected via tapering equations (Cushman
 <p class="caption">Buttressed trunk (pc: Annette Aiello)</p>
 </div>
 </center>
+<p>Other potential issues:</p>
+<ul>
+<li>Censuses may need to be excluded if their are large differences in
+methodology.</li>
+<li>Lack of genus or species level taxonomy may require decisions about
+the most appropriate wood density values or allometries.</li>
+<li>Systematic site differences (taller or shorter than expected in
+allometries) can result in large errors when using standard allometric
+equations.</li>
+<li>Trees are weird. Trees that have fallen down, but stayed alive and
+sprouted offshoots do not match allometric equations.</li>
+</ul>
 </div>
 
 
