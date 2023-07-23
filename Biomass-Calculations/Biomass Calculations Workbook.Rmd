@@ -1,6 +1,6 @@
 ---
 title: "A Quick Guide to Biomass Calculations"
-author: Luca L. Morreale
+author: Luca L. Morreale, Helene Muller-Landau, Kristina Anderson-Teixeira
 output: 
   html_document:
     code_folding: hide
@@ -66,7 +66,7 @@ We will use the most recent diameter measurement for this tree along with an all
 The most widely used allometry for tropical forests is the pantropical allometric equation from Chave _et al._ 2014:
 
 $$AGB = (0.0673 * (\rho * H * D^2)^.976) / 1000$$
-Here, above-ground biomass (AGB) is calculated as a function of tree diameter (D, in cm), tree height (H, in m), and wood density ($\rho$, in $g$ $cm^-3 $). Diameter, or dbh, is included in our dataset, $\rho$ is species-level trait that is also included in our data (column "wsg"). Height is not included in our data, so we will use a height of 25 m to start with. We then divide by 1000 so that our biomass units will be in Mg. 
+Here, above-ground biomass (AGB) is calculated as a function of tree diameter (D, in cm), tree height (H, in m), and wood density ($\rho$, in g cm$^-3$). Diameter, or dbh, is included in our dataset, $\rho$ is species-level trait that is also included in our data (column "wsg"). Height is not included in our data, so we will use a height of 25 m to start with. We then divide by 1000 so that our biomass units will be in Mg. 
 
 
 ```{r}
@@ -203,12 +203,43 @@ Notice that we get a different value with this method because it using a differe
 
 ### allodb ###
 
-For the extratropics, the _allodb_ package (Gonzalez-Akre *et al.* 2022) is a new package that brings together 570 different allometric equations. It creates new allometries based on the location and species in your dataset, by applying a weighting scheme to all applicable allometries in it's database. Similar to the *BIOMASS* package, it relies upon dbh, site coordinates, 
+For the extratropics, the _allodb_ package (Gonzalez-Akre *et al.* 2022) is a new package that brings together 570 different allometric equations, including the commonly-used Jenkins and Chojnacky equations. It creates new allometries based on the location and species in your dataset, by applying a weighting scheme to all applicable allometries in it's database. Unlike the pantropical allometry, these are frequently species or genus specific so you need to provide taxonomic data (beyond wood density)
+
+```{r}
+library(allodb)
+#here we use new (fake) tree attributes since this package focuses on the extratropics
+D <- 50
+Genus <- "Liriodendron"
+Species <- "tulipifera"
+latlong <- c(-78.1454, 38.8935)
+
+allodb_AGB <- get_biomass(dbh = D, genus = Genus, species = Species, coords = latlong)
+
+print(allodb_AGB)
+
+```
+## Mapping our results ##
+
+Frequently, we are interested in not just a single calculation for a whole plot, but to see how biomass stocks and fluxes vary within a ForestGEO plot. 
+
+
 
 ```{r}
 
 ```
 
 
-## But wait there's more...##
+## But wait there's more... ##
+
+While we have covered the foundation of how to make biomass calculations from forest inventory data, there are many details that may complicate your methods (read: will *definitely* complicate your methods).
+
+For example: in the BCI plot (and other tropical forest sites) large root buttresses can interfere with measurements of diameter at the standard height (1.3 meters). Therefore allometries based on dbh taken at the standard height must be corrected via tapering equations (Cushman *et al.* 2014). 
+
+<center>
+
+![Buttressed trunk (pc: Annette Aiello)](img/root_buttresses.jpg){width=12%,height=10%}
+
+</center>
+
+
 
